@@ -4,65 +4,73 @@ import express from 'express';
 import pino from 'pino-http';
 import cors from 'cors';
 
-import { env } from './utils/env.js';
-import { getAllStudents, getStudentById } from './services/students.js';
+import { env } from './utils/env.util.js';
+import { pinoConfig } from './utils/config.util.js';
+import { getAllContacts, getContactById } from './services/contacts.service.js';
 
 const PORT = env('PORT', 3000);
 
-export const startServer = () => {
+export const setupServer = () => {
   const app = express();
 
+  // setup middlewares
   app.use(express.json());
   app.use(cors());
+  app.use(pino(pinoConfig));
 
-  app.use(
-    pino({
-      transport: {
-        target: 'pino-pretty',
-      },
-    }),
-  );
-
-  app.get('/', (req, res) => {
-    res.json({
-      message: 'Hello world!',
+  //================================================================
+  // routes
+  app.get('/', (_req, res) => {
+    res.status(200).json({
+      message: 'Hello, Node!',
     });
   });
 
-  app.get('/students', async (req, res) => {
-    const students = await getAllStudents();
-    res.status(200).json({ data: students });
+  app.get('/contacts', async (_req, res) => {
+    const contacts = await getAllContacts();
+
+    res.status(200).json({
+      status: 200,
+      message: 'Successfully found contacts!',
+      data: contacts,
+    });
   });
 
-  app.get('/students/:studentId', async (req, res) => {
-    const { studentId } = req.params;
-    const student = await getStudentById(studentId);
+  app.get('/contacts/:id', async (req, res) => {
+    const { id } = req.params;
+    const contact = await getContactById(id);
 
-    if (!student) {
+    if (!contact) {
       res.status(404).json({
-        message: 'Student not found',
+        message: 'Contact not found.',
       });
     }
 
-    if (student) {
-      res.status(200).json({ data: student });
+    if (contact) {
+      res.status(200).json({
+        status: 200,
+        message: 'Successfully found contact!',
+        data: contact,
+      });
     }
   });
 
-  app.use('*', (req, res, next) => {
+  //================================================================
+  // error-handlers
+  app.use('*', (_req, res, _next) => {
     res.status(404).json({
-      message: 'Not found',
+      message: 'Route not found.',
     });
   });
 
-  app.use((err, req, res, next) => {
+  app.use((err, _req, res, _next) => {
     res.status(500).json({
-      message: 'Something went wrong',
+      message: 'Internal server error.',
       error: err.message,
     });
   });
 
   app.listen(PORT, () => {
-    console.log(`Server is available on port ${PORT}`);
+    console.log(`Server is available on port ${PORT}.`);
   });
 };

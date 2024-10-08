@@ -1,10 +1,8 @@
-// src/db/initMongoDB.js
-
 import mongoose from 'mongoose';
 
-import { env } from '../utils/env.js';
+import { env } from '../utils/env.util.js';
 
-export const initMongoDB = async () => {
+export const initMongoConnection = async () => {
   try {
     const uri = env('MONGODB_CONNECTION_URI');
 
