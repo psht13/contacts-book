@@ -2,10 +2,10 @@ import { HttpError } from 'http-errors';
 
 export const errorHandlerMiddleware = (err, _req, res, _next) => {
   if (err instanceof HttpError) {
-    res.status(err.statusCode).json({
+    return res.status(err.statusCode).json({
       status: err.statusCode,
       message: 'Http error',
-      data: err.message + ' | ' + err.errors.details[0].message || 'Some error',
+      data: err.message,
     });
   }
 

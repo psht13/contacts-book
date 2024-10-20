@@ -1,4 +1,5 @@
 import { Router } from 'express';
+import express from 'express';
 
 import {
   createContactController,
@@ -11,21 +12,37 @@ import {
 import { ctrlWrapper } from '../utils/ctrl-wrapper.js';
 import { validateBody } from '../middlewares/validate-body.middleware.js';
 import { createContactSchema } from '../validation/contacts.schema.js';
+import { isValidId } from '../middlewares/validate-id.middleware.js';
 
 const router = Router();
 
 router.get('/', ctrlWrapper(getAllContactsController));
 
-router.get('/:contactId', ctrlWrapper(getContactByIdController));
+router.get(
+  '/:contactId',
+  isValidId('contactId'),
+  ctrlWrapper(getContactByIdController),
+);
 
 router.post(
   '/',
+  express.json(),
   validateBody(createContactSchema),
   ctrlWrapper(createContactController),
 );
 
-router.patch('/:contactId', ctrlWrapper(updateContactController));
+router.patch(
+  '/:contactId',
+  isValidId('contactId'),
+  express.json(),
+  validateBody(createContactSchema),
+  ctrlWrapper(updateContactController),
+);
 
-router.delete('/:contactId', ctrlWrapper(deleteContactController));
+router.delete(
+  '/:contactId',
+  isValidId('contactId'),
+  ctrlWrapper(deleteContactController),
+);
 
 export default router;
