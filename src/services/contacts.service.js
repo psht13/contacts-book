@@ -22,12 +22,11 @@ export const getAllContacts = async ({
   }
 
   const [count, students] = await Promise.all([
-    await ContactsCollection.find().merge().countDocuments(),
+    await ContactsCollection.countDocuments(contactsQuery),
     await contactsQuery
       .skip(skip)
       .limit(limit)
-      .sort({ [sortBy]: sortOrder })
-      .exec(),
+      .sort({ [sortBy]: sortOrder }),
   ]);
 
   const paginationData = calculatePaginationData(count, perPage, page);
