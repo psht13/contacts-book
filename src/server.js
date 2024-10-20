@@ -2,8 +2,8 @@ import express from 'express';
 import pino from 'pino-http';
 import cors from 'cors';
 
-import { env } from './utils/env.util.js';
-import { pinoConfig } from './utils/config.util.js';
+import { env } from './utils/env.js';
+import { pinoConfig } from './utils/config.js';
 
 import contactsRouter from './routers/contacts.router.js';
 

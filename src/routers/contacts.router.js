@@ -8,7 +8,7 @@ import {
   updateContactController,
 } from '../controllers/contacts.controller.js';
 
-import { ctrlWrapper } from '../utils/ctrl-wrapper.util.js';
+import { ctrlWrapper } from '../utils/ctrl-wrapper.js';
 
 const router = Router();
 
