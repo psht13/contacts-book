@@ -5,7 +5,7 @@ export const errorHandlerMiddleware = (err, _req, res, _next) => {
     res.status(err.statusCode).json({
       status: err.statusCode,
       message: 'Http error',
-      data: err.message,
+      data: err.message + ' | ' + err.errors.details[0].message || 'Some error',
     });
   }
 
