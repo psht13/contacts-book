@@ -17,8 +17,8 @@ export const getAllContacts = async ({
     contactsQuery.where('contactType').equals(filter.type);
   }
 
-  if (typeof filter.isFavorite !== 'undefined') {
-    contactsQuery.where('isFavorite').equals(filter.isFavorite);
+  if (typeof filter.isFavourite !== 'undefined') {
+    contactsQuery.where('isFavourite').equals(filter.isFavourite);
   }
 
   const [count, students] = await Promise.all([

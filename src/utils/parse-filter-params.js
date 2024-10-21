@@ -21,13 +21,13 @@ const parseBool = (value) => {
 };
 
 export const parseFilterParams = (query) => {
-  const { type, isFavorite } = query;
+  const { type, isFavourite } = query;
 
   const parsedType = parseType(type);
-  const parsedIsFavorite = parseBool(isFavorite);
+  const parsedisFavourite = parseBool(isFavourite);
 
   return {
     type: parsedType,
-    isFavorite: parsedIsFavorite,
+    isFavourite: parsedisFavourite,
   };
 };
