@@ -4,7 +4,7 @@ export const errorHandlerMiddleware = (err, req, res, next) => {
   if (err instanceof HttpError) {
     return res.status(err.statusCode).json({
       status: err.statusCode,
-      message: 'Http error',
+      message: 'Http Error',
       data: { error: err.message },
     });
   }
