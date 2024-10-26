@@ -25,7 +25,7 @@ export const getAllContactsController = async (req, res) => {
   });
 
   const {
-    students,
+    contacts,
     count: totalItems,
     totalPages,
     hasNextPage,
@@ -35,11 +35,11 @@ export const getAllContactsController = async (req, res) => {
   res.status(200).json({
     status: 200,
     message:
-      students.length !== 0
+      contacts.length !== 0
         ? 'Successfully found contacts!'
         : 'No contacts found',
     data: {
-      data: students,
+      contacts,
       sortOrder,
       sortBy,
       page,
