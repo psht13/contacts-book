@@ -21,6 +21,7 @@ export const getAllContactsController = async (req, res) => {
     sortOrder,
     sortBy,
     filter,
+    userId: req.user._id,
   });
 
   const {
@@ -53,52 +54,51 @@ export const getAllContactsController = async (req, res) => {
 
 export const getContactByIdController = async (req, res) => {
   const { contactId } = req.params;
-  const contact = await getContactById(contactId);
+  const contact = await getContactById(contactId, req.user._id);
 
   if (!contact) {
-    throw createHttpError.NotFound('Contact not found');
+    throw createHttpError(404, 'Contact not found');
   }
 
-  if (contact) {
-    res.status(200).json({
-      status: 200,
-      message: 'Successfully found contact!',
-      data: contact,
-    });
-  }
+  res.status(200).json({
+    status: 200,
+    message: 'Successfully found contact!',
+    data: { contact },
+  });
 };
 
 export const createContactController = async (req, res) => {
-  const contact = await createContact(req.body);
+  const payload = { ...req.body, userId: req.user._id };
+  const contact = await createContact(payload);
 
   res.status(201).json({
     status: 201,
     message: 'Successfully created contact!',
-    data: contact,
+    data: { contact },
   });
 };
 
 export const updateContactController = async (req, res) => {
   const { contactId } = req.params;
-  const contact = await updateContact(contactId, req.body);
+  const contact = await updateContact(contactId, req.body, req.user._id);
 
   if (!contact) {
-    throw createHttpError.NotFound('Contact not found');
+    throw createHttpError(404, 'Contact not found');
   }
 
   res.status(200).json({
     status: 200,
     message: 'Successfully updated contact!',
-    data: contact,
+    data: { contact },
   });
 };
 
 export const deleteContactController = async (req, res) => {
   const { contactId } = req.params;
-  const contact = await deleteContact(contactId);
+  const contact = await deleteContact(contactId, req.user._id);
 
   if (!contact) {
-    throw createHttpError.NotFound('Contact not found');
+    throw createHttpError(404, 'Contact not found');
   }
 
   res.status(204).send();

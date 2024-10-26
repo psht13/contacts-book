@@ -1,5 +1,5 @@
 import createHttpError from 'http-errors';
 
-export const notFoundHandlerMiddleware = (_req, _res, _next) => {
-  throw createHttpError.NotFound('Route not found');
+export const notFoundHandlerMiddleware = (req, res, next) => {
+  return next(createHttpError(404, 'Route not found'));
 };

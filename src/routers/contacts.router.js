@@ -16,8 +16,12 @@ import {
   patchContactSchema,
 } from '../validation/contacts.schema.js';
 import { isValidId } from '../middlewares/validate-id.middleware.js';
+import { authenticate } from '../middlewares/authenticate.middleware.js';
 
+const jsonParser = express.json();
 const router = Router();
+
+router.use(authenticate);
 
 router.get('/', ctrlWrapper(getAllContactsController));
 
@@ -29,7 +33,7 @@ router.get(
 
 router.post(
   '/',
-  express.json(),
+  jsonParser,
   validateBody(createContactSchema),
   ctrlWrapper(createContactController),
 );
@@ -37,7 +41,7 @@ router.post(
 router.patch(
   '/:contactId',
   isValidId('contactId'),
-  express.json(),
+  jsonParser,
   validateBody(patchContactSchema),
   ctrlWrapper(updateContactController),
 );
