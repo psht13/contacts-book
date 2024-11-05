@@ -9,16 +9,20 @@ import {
   updateContactController,
 } from '../controllers/contacts.controller.js';
 
-import { ctrlWrapper } from '../utils/ctrl-wrapper.js';
-import { validateBody } from '../middlewares/validate-body.middleware.js';
 import {
   createContactSchema,
   patchContactSchema,
 } from '../validation/contacts.schema.js';
+
+import { ctrlWrapper } from '../utils/ctrl-wrapper.js';
+import { validateBody } from '../middlewares/validate-body.middleware.js';
 import { isValidId } from '../middlewares/validate-id.middleware.js';
 import { authenticate } from '../middlewares/authenticate.middleware.js';
+import { upload } from '../middlewares/multer.middleware.js';
 
 const jsonParser = express.json();
+const uploadPhoto = upload.single('photo');
+
 const router = Router();
 
 router.use(authenticate);
@@ -33,6 +37,7 @@ router.get(
 
 router.post(
   '/',
+  uploadPhoto,
   jsonParser,
   validateBody(createContactSchema),
   ctrlWrapper(createContactController),
@@ -41,6 +46,7 @@ router.post(
 router.patch(
   '/:contactId',
   isValidId('contactId'),
+  uploadPhoto,
   jsonParser,
   validateBody(patchContactSchema),
   ctrlWrapper(updateContactController),

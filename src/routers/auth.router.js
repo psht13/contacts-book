@@ -22,6 +22,7 @@ import {
 } from '../validation/auth.schema.js';
 
 const jsonParser = express.json();
+
 const router = Router();
 
 router.post(
