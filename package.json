@@ -6,13 +6,18 @@
   "main": "index.js",
   "scripts": {
     "dev": "node --watch src/index.js",
-    "start": "node src/index.js"
+    "start": "node src/index.js",
+    "build": "npm run build-docs",
+    "build-docs": "redocly bundle --ext json -o docs/swagger.json",
+    "preview-docs": "redocly preview-docs"
+
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "devDependencies": {
     "@eslint/js": "^9.2.0",
+    "@redocly/cli": "^1.25.11",
     "eslint": "^9.2.0",
     "globals": "^15.1.0",
     "pino-pretty": "^11.2.2"
