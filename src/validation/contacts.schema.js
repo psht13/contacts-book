@@ -31,6 +31,9 @@ export const createContactSchema = Joi.object({
     'string.email': 'Email must be a valid email address',
     'string.base': 'Email should be a string',
   }),
+  photo: Joi.string().messages({
+    'string.base': 'Photo should be a string',
+  }),
 });
 
 export const patchContactSchema = Joi.object({
@@ -55,5 +58,8 @@ export const patchContactSchema = Joi.object({
   email: Joi.string().email().messages({
     'string.email': 'Email must be a valid email address',
     'string.base': 'Email should be a string',
+  }),
+  photo: Joi.string().messages({
+    'string.base': 'Photo should be a string',
   }),
 });
