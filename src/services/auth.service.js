@@ -55,13 +55,13 @@ export const refreshUsersSession = async ({ sessionId, refreshToken }) => {
     refreshToken,
   });
 
-  if (!session) throw createHttpError(401, 'Session not found');
+  if (!session) throw createHttpError(401, 'Unauthorized');
 
   const isSessionTokenExpired =
     new Date() > new Date(session.refreshTokenValidUntil);
 
   if (isSessionTokenExpired) {
-    throw createHttpError(401, 'Session token expired');
+    throw createHttpError(401, 'Unauthorized');
   }
 
   await SessionsCollection.deleteOne({ _id: sessionId, refreshToken });
@@ -134,8 +134,7 @@ export const resetPassword = async (payload) => {
     entries = jwt.verify(payload.token, env('JWT_SECRET'));
   } catch (err) {
     console.error(err);
-    if (err instanceof Error)
-      throw createHttpError(401, 'Token is expired or invalid.');
+    if (err instanceof Error) throw createHttpError(401, 'Unauthorized');
   }
 
   const user = await UsersCollection.findOne({

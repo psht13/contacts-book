@@ -21,7 +21,7 @@ export const CLOUDINARY = {
 
 export const FIFTEEN_MINUTES = 15 * 60 * 1000;
 export const ONE_MONTH = 30 * 24 * 60 * 60 * 1000;
-export const ACCESS_TOKEN_TTL = FIFTEEN_MINUTES;
+export const ACCESS_TOKEN_TTL = FIFTEEN_MINUTES * 4;
 export const REFRESH_TOKEN_TTL = ONE_MONTH;
 
 export const TEMP_UPLOAD_DIR = path.resolve('src', 'temp');
